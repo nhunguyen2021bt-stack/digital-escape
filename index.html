@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGITAL ESCAPE – Giải mã thế giới số</title>
+<style>
+:root{--bg:#080d20;--panel:#111a35;--panel2:#172447;--cyan:#53e6ff;--purple:#9b8cff;--pink:#ff6fba;--green:#64e6a5;--red:#ff6b7a;--text:#eef4ff;--muted:#a9b8d8}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 15% 10%,#1d2c5a 0,transparent 32%),radial-gradient(circle at 90% 85%,#321c58 0,transparent 30%),var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+button{font:inherit;cursor:pointer}.wrap{max-width:1050px;margin:auto;padding:24px 16px 50px}.brand{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}.logo{font-weight:900;letter-spacing:2px;color:var(--cyan);font-size:14px}.pill{border:1px solid #34466f;border-radius:99px;padding:8px 12px;color:var(--muted);font-size:12px}
+.screen{display:none}.screen.active{display:block}.hero,.panel{background:linear-gradient(145deg,rgba(22,34,69,.96),rgba(12,19,42,.96));border:1px solid #2d416e;border-radius:22px;box-shadow:0 18px 60px #0005}.hero{padding:clamp(25px,6vw,58px);text-align:center}.eyebrow{color:var(--cyan);font-size:12px;font-weight:bold;letter-spacing:3px}.hero h1{font-size:clamp(35px,7vw,68px);line-height:1;margin:18px 0 12px}.hero h1 span{color:var(--cyan)}.sub{color:var(--muted);line-height:1.7;max-width:660px;margin:0 auto 25px}.btn{border:0;border-radius:12px;padding:13px 22px;font-weight:800;background:linear-gradient(90deg,var(--cyan),#8da9ff);color:#071326;box-shadow:0 7px 22px #53e6ff30}.btn.secondary{background:#25365e;color:var(--text);border:1px solid #435985;box-shadow:none}.btn:disabled{opacity:.4;cursor:not-allowed}.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.rule{background:#101a35;border:1px solid #283b65;border-radius:14px;padding:14px;color:var(--muted);font-size:13px;line-height:1.5}.rule b{display:block;color:var(--text);font-size:15px;margin-bottom:4px}
+.panel{padding:22px}.topstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.stat{background:#101a35;border:1px solid #293c68;border-radius:13px;padding:11px;text-align:center}.stat small{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}.stat strong{font-size:20px}.progress{height:8px;background:#253454;border-radius:99px;overflow:hidden;margin:10px 0 22px}.progress>div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));width:0;transition:width .3s}
+.roomhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.roomhead h2{margin:0;font-size:23px}.roomhead p{margin:5px 0 0;color:var(--muted);font-size:13px}.timer{font-weight:900;color:var(--cyan);font-size:22px;white-space:nowrap}.qmeta{color:var(--purple);font-size:12px;font-weight:bold;letter-spacing:1px;margin-bottom:10px}.question{font-size:clamp(18px,3vw,24px);line-height:1.5;margin:0 0 20px}.answers{display:grid;gap:10px}.answer{width:100%;text-align:left;border:1px solid #344a78;border-radius:13px;padding:14px 16px;background:#142142;color:var(--text);transition:.15s;line-height:1.4}.answer:hover:not(:disabled){border-color:var(--cyan);transform:translateY(-1px);background:#1a2d55}.answer.correct{border-color:var(--green);background:#123d3a}.answer.wrong{border-color:var(--red);background:#492333}.feedback{display:none;margin-top:16px;padding:14px;border-radius:13px;line-height:1.55;background:#142747;border:1px solid #38517c}.feedback.show{display:block}.feedback.good{border-color:#398f76}.feedback.bad{border-color:#a64b61}.actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px}.hint{font-size:12px;color:var(--muted)}
+.mapgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.roomcard{background:#111d3a;border:1px solid #2b3f6b;border-radius:14px;padding:16px;text-align:left;color:var(--text)}.roomcard span{display:block;color:var(--cyan);font-size:11px;margin-bottom:8px}.roomcard strong{font-size:14px}.roomcard small{display:block;color:var(--muted);margin-top:7px}.roomcard.done{border-color:#368f75;background:#102f34}.roomcard.current{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan) inset}.roomcard.locked{opacity:.42;cursor:not-allowed}
+.end{text-align:center;padding:38px 22px}.end .symbol{font-size:58px}.end h2{font-size:34px;margin:10px}.end p{color:var(--muted);line-height:1.7}
+footer{text-align:center;color:#7788ad;font-size:11px;margin-top:22px}
+@media(max-width:700px){.rules{grid-template-columns:1fr}.topstats{grid-template-columns:repeat(2,1fr)}.mapgrid{grid-template-columns:repeat(2,1fr)}.roomhead{align-items:flex-start}.panel{padding:16px}.brand{align-items:flex-start}.actions{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="brand"><div class="logo">◈ DIGITAL ESCAPE</div><div class="pill">TIN HỌC 12 · KẾT NỐI TRI THỨC</div></div>
+
+ <section id="start" class="screen active">
+  <div class="hero">
+   <div class="eyebrow">MISSION: RESTORE THE SYSTEM</div>
+   <h1>DIGITAL<br><span>ESCAPE</span></h1>
+   <p class="sub">Một virus lạ đã khóa hệ thống trung tâm. Bạn là thành viên đội giải cứu số, phải vượt qua 8 căn phòng kiến thức để khôi phục hệ thống. Hãy vận dụng hiểu biết về AI, mạng máy tính, văn hóa số và thiết kế web!</p>
+   <button class="btn" onclick="startGame()">BẮT ĐẦU NHIỆM VỤ →</button>
+   <div class="rules">
+    <div class="rule"><b>♥ 3 mạng</b>Bạn có 3 lượt sai. Hết mạng, nhiệm vụ kết thúc.</div>
+    <div class="rule"><b>◷ 20 giây/câu</b>Trả lời trước khi đồng hồ về 0.</div>
+    <div class="rule"><b>★ Tích điểm</b>Câu dễ: 100 · Trung bình: 200 · Khó: 300 điểm.</div>
+   </div>
+  </div>
+ </section>
+
+ <section id="game" class="screen">
+  <div class="topstats">
+   <div class="stat"><small>ĐIỂM SỐ</small><strong id="score">0</strong></div>
+   <div class="stat"><small>MẠNG CÒN LẠI</small><strong id="lives">♥ ♥ ♥</strong></div>
+   <div class="stat"><small>TIẾN ĐỘ</small><strong id="progressText">0/30</strong></div>
+   <div class="stat"><small>PHÒNG</small><strong id="roomCount">1/8</strong></div>
+  </div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="panel">
+   <div class="roomhead"><div><h2 id="roomTitle">Phòng 01</h2><p id="roomDesc"></p></div><div class="timer" id="timer">00:20</div></div>
+   <div class="qmeta" id="qmeta">CÂU HỎI 01 · DỄ</div>
+   <p class="question" id="question"></p>
+   <div class="answers" id="answers"></div>
+   <div id="feedback" class="feedback"></div>
+   <div class="actions"><span class="hint" id="hint">Chọn một đáp án đúng để tiếp tục.</span><button id="nextBtn" class="btn" onclick="nextQuestion()" disabled>TIẾP TỤC →</button></div>
+  </div>
+  <div style="margin-top:14px;text-align:right"><button class="btn secondary" onclick="showMap()">XEM BẢN ĐỒ PHÒNG</button></div>
+ </section>
+
+ <section id="map" class="screen">
+  <div class="panel">
+   <div class="eyebrow">SYSTEM MAP</div><h2> Bản đồ 8 căn phòng</h2>
+   <p class="sub" style="margin:8px 0 0">Hoàn thành lần lượt từng căn phòng để mở khóa khu vực tiếp theo.</p>
+   <div class="mapgrid" id="mapgrid"></div>
+   <div class="actions"><button class="btn secondary" onclick="backToGame()">← QUAY LẠI</button><span class="hint" id="mapStatus"></span></div>
+  </div>
+ </section>
+
+ <section id="ending" class="screen">
+  <div class="hero end"><div class="symbol" id="endSymbol">🏆</div><div class="eyebrow" id="endEyebrow">MISSION COMPLETE</div><h2 id="endTitle">Hệ thống đã được khôi phục!</h2><p id="endText"></p><p><b id="finalScore"></b></p><button class="btn" onclick="restartGame()">CHƠI LẠI ↻</button></div>
+ </section>
+ <footer>Được xây dựng phục vụ học tập · Tin học 12 · DIGITAL ESCAPE</footer>
+</div>
+<script>
+const rooms = [
+ {name:"Khởi động AI",desc:"Phòng 1 · Làm quen với trí tuệ nhân tạo",qs:[
+ ["Trí tuệ nhân tạo (AI) là lĩnh vực tập trung vào việc tạo ra hệ thống có khả năng nào sau đây?","Thực hiện các nhiệm vụ thường cần trí thông minh của con người","Chỉ lưu trữ dữ liệu trên máy tính","Chỉ tăng tốc độ kết nối Internet","Thay thế hoàn toàn mọi thiết bị điện tử",0,"AI hướng tới xây dựng hệ thống có thể học, suy luận, nhận biết hoặc giải quyết vấn đề." ,"Dễ",100],
+ ["Khả năng nào sau đây thường được xem là một biểu hiện của AI?","Tự động học từ dữ liệu để cải thiện kết quả","Chỉ hiển thị văn bản đã được in sẵn","Chỉ bật hoặc tắt nguồn điện","Chỉ truyền tín hiệu qua dây cáp",0,"Học từ dữ liệu là một năng lực quan trọng của nhiều hệ thống AI.","Dễ",100],
+ ["Một hệ thống nhận diện khuôn mặt trong ảnh đang thực hiện nhiệm vụ chính nào?","Nhận dạng hình ảnh","Nén tệp văn bản","Định tuyến gói tin","Định dạng trang web",0,"Nhận diện khuôn mặt là ứng dụng AI thuộc lĩnh vực thị giác máy tính.","Trung bình",200],
+ ["Phát biểu nào mô tả đúng nhất về AI?","AI có thể hỗ trợ con người ra quyết định nhưng vẫn có giới hạn","AI luôn đưa ra kết quả chính xác tuyệt đối","AI không cần dữ liệu để hoạt động","Mọi phần mềm đều là AI",0,"AI có thể hữu ích nhưng kết quả phụ thuộc dữ liệu, mô hình và bối cảnh sử dụng.","Khó",300]
+ ]},
+ {name:"AI trong đời sống",desc:"Phòng 2 · Trí tuệ nhân tạo trong khoa học và đời sống",qs:[
+ ["Ứng dụng nào sau đây sử dụng AI trong y tế?","Hỗ trợ phân tích ảnh chụp y khoa","In hồ sơ bằng máy in thông thường","Sạc pin điện thoại","Kết nối bàn phím với máy tính",0,"AI có thể hỗ trợ phát hiện dấu hiệu bất thường trên ảnh y khoa.","Dễ",100],
+ ["Trợ lí ảo có thể hiểu câu hỏi bằng giọng nói chủ yếu nhờ công nghệ nào?","Nhận dạng và xử lí ngôn ngữ tiếng nói","Định dạng văn bản HTML","Chia sẻ thư mục","Mã hóa màn hình",0,"Trợ lí ảo kết hợp nhận dạng tiếng nói và xử lí ngôn ngữ tự nhiên.","Trung bình",200],
+ ["Một hệ thống AI tuyển dụng được huấn luyện bằng dữ liệu thiên lệch có thể dẫn đến điều gì?","Đưa ra kết quả thiếu công bằng","Luôn tuyển được người giỏi nhất","Không cần con người kiểm tra","Tự động loại bỏ mọi sai sót",0,"Dữ liệu thiên lệch có thể khiến mô hình tái tạo hoặc khuếch đại sự bất công.","Khó",300],
+ ["Khi sử dụng kết quả do AI tạo ra cho bài học, cách làm phù hợp nhất là gì?","Kiểm chứng thông tin bằng nguồn đáng tin cậy","Chép nguyên văn mà không đọc lại","Tin mọi kết quả AI đưa ra","Không cần ghi nhận nguồn tham khảo",0,"AI có thể tạo thông tin sai; người dùng cần kiểm tra và chịu trách nhiệm về nội dung.","Trung bình",200]
+ ]},
+ {name:"Thiết bị mạng",desc:"Phòng 3 · Một số thiết bị mạng thông dụng",qs:[
+ ["Thiết bị nào thường dùng để kết nối nhiều máy tính trong mạng LAN?","Bộ chuyển mạch (switch)","Máy quét (scanner)","Máy chiếu","Loa máy tính",0,"Switch kết nối các thiết bị trong mạng cục bộ và chuyển tiếp dữ liệu đến cổng phù hợp.","Dễ",100],
+ ["Thiết bị nào có chức năng kết nối các mạng khác nhau và định tuyến gói tin?","Router","Bàn phím","Webcam","USB",0,"Router định tuyến dữ liệu giữa các mạng, chẳng hạn mạng gia đình và Internet.","Dễ",100],
+ ["Trong mạng không dây, thiết bị phát Wi-Fi giúp các thiết bị đầu cuối kết nối mạng thường được gọi là gì?","Access Point","Máy in","Switch quang","Bộ lưu điện",0,"Access Point cung cấp điểm truy cập không dây cho các thiết bị.","Trung bình",200],
+ ["Gia đình có nhiều thiết bị cần truy cập Internet và chia sẻ một đường truyền. Thiết bị phù hợp nhất để kết nối mạng gia đình với Internet là gì?","Router","Microphone","Máy quét","Màn hình",0,"Router thường kết nối mạng nội bộ với mạng bên ngoài và quản lí việc định tuyến.","Khó",300]
+ ]},
+ {name:"Giao thức mạng",desc:"Phòng 4 · Giao thức mạng",qs:[
+ ["Giao thức mạng là gì?","Tập hợp quy tắc giúp các thiết bị trao đổi dữ liệu","Một loại dây cáp mạng","Một thiết bị lưu trữ","Một phần mềm vẽ hình",0,"Các giao thức quy định cách dữ liệu được trao đổi giữa các thiết bị.","Dễ",100],
+ ["Bộ giao thức nền tảng của Internet được gọi là gì?","TCP/IP","HTML/CSS","USB/HDMI","JPEG/PNG",0,"TCP/IP là bộ giao thức cốt lõi cho việc truyền thông trên Internet.","Trung bình",200],
+ ["Giao thức nào thường được sử dụng để truyền tải trang web?","HTTP/HTTPS","FTP בלבד","Bluetooth","SMTP בלבד",0,"HTTP và HTTPS được dùng để trao đổi dữ liệu web; HTTPS có mã hóa bảo vệ kết nối.","Trung bình",200],
+ ["Vì sao cần có các giao thức chung khi các máy tính muốn trao đổi dữ liệu?","Để các thiết bị tuân theo quy tắc tương thích khi giao tiếp","Để mọi máy tính có cùng cấu hình","Để không cần địa chỉ mạng","Để tăng dung lượng ổ cứng",0,"Quy tắc chung giúp thiết bị và phần mềm khác nhau có thể hiểu và trao đổi dữ liệu.","Khó",300]
+ ]},
+ {name:"Chia sẻ tài nguyên",desc:"Phòng 5 · Thực hành chia sẻ tài nguyên trên mạng",qs:[
+ ["Muốn các thành viên trong nhóm cùng sử dụng một thư mục qua mạng, cần thực hiện thao tác nào?","Thiết lập chia sẻ thư mục và quyền truy cập","Đổi hình nền máy tính","Tắt toàn bộ kết nối mạng","Xóa thư mục khỏi máy",0,"Cần bật chia sẻ thư mục và xác định ai được phép truy cập.","Dễ",100],
+ ["Vì sao nên phân quyền khi chia sẻ tệp và thư mục?","Để kiểm soát người được xem hoặc chỉnh sửa dữ liệu","Để làm tệp có dung lượng lớn hơn","Để tăng độ sáng màn hình","Để mọi người đều có toàn quyền",0,"Phân quyền giúp bảo vệ dữ liệu và hạn chế chỉnh sửa ngoài ý muốn.","Trung bình",200],
+ ["Bạn chỉ muốn bạn cùng nhóm xem tài liệu, không sửa hoặc xóa được. Nên cấp quyền nào?","Chỉ đọc (Read)","Toàn quyền (Full control)","Quyền quản trị","Không giới hạn",0,"Quyền chỉ đọc cho phép xem nội dung nhưng không chỉnh sửa tài liệu.","Trung bình",200]
+ ]},
+ {name:"Công dân số",desc:"Phòng 6 · Giao tiếp và ứng xử trong không gian mạng",qs:[
+ ["Khi nhận được một tin tức gây sốc trên mạng xã hội, bạn nên làm gì trước khi chia sẻ?","Kiểm tra nguồn và đối chiếu thông tin","Chia sẻ ngay để mọi người biết","Thêm tiêu đề gây chú ý","Tin vì có nhiều lượt thích",0,"Kiểm chứng nguồn giúp hạn chế lan truyền tin giả và thông tin sai lệch.","Dễ",100],
+ ["Hành vi nào thể hiện ứng xử văn minh trên không gian mạng?","Tôn trọng người khác và trao đổi lịch sự","Công khai thông tin riêng tư của người khác","Dùng lời lẽ xúc phạm khi bất đồng","Phát tán nội dung chưa kiểm chứng",0,"Tôn trọng, lịch sự và có trách nhiệm là nguyên tắc quan trọng khi giao tiếp trực tuyến.","Dễ",100],
+ ["Một người lạ gửi đường link yêu cầu đăng nhập để nhận quà. Cách xử lí an toàn nhất là gì?","Không vội nhấn link; kiểm tra nguồn và không cung cấp mật khẩu","Nhập mật khẩu ngay","Chuyển tiếp link cho bạn bè","Tắt phần mềm bảo mật",0,"Đây có thể là hình thức lừa đảo giả mạo (phishing) nhằm đánh cắp thông tin.","Khó",300]
+ ]},
+ {name:"Cấu trúc HTML",desc:"Phòng 7 · HTML và cấu trúc trang web",qs:[
+ ["HTML là viết tắt của cụm từ nào?","HyperText Markup Language","High Transfer Machine Link","Home Tool Markup List","Hyperlink Text Making Logic",0,"HTML là ngôn ngữ đánh dấu siêu văn bản dùng để cấu trúc nội dung trang web.","Dễ",100],
+ ["Phần tử nào chứa nội dung chính hiển thị trên trang web?","body","head","meta","title",0,"Nội dung chính của trang thường được đặt trong phần tử body.","Dễ",100],
+ ["Thẻ nào thường dùng để tạo tiêu đề chính cấp 1?","h1","p","br","img",0,"Thẻ h1 biểu thị tiêu đề cấp cao nhất trong cấu trúc heading thông thường.","Trung bình",200],
+ ["Trong tài liệu HTML, phần tử title thường được đặt ở đâu?","Bên trong head","Bên trong body","Bên trong footer","Bên ngoài phần tử html",0,"Title nằm trong head và xác định tiêu đề trang, thường hiển thị trên tab trình duyệt.","Khó",300]
+ ]},
+ {name:"Định dạng văn bản",desc:"Phòng 8 · Định dạng văn bản",qs:[
+ ["Thẻ HTML nào thường dùng để tạo một đoạn văn bản?","p","h1","img","table",0,"Phần tử p dùng để biểu thị một đoạn văn bản.","Dễ",100],
+ ["Thẻ nào thường được dùng để làm chữ in đậm theo ý nghĩa nhấn mạnh?","strong","i","br","hr",0,"Strong thể hiện nội dung có mức độ quan trọng cao; trình duyệt thường hiển thị in đậm.","Trung bình",200],
+ ["Thẻ nào thường được dùng để nhấn mạnh văn bản theo cách hiển thị in nghiêng?","em","p","div","ul",0,"Em biểu thị phần văn bản được nhấn mạnh; trình duyệt thường hiển thị in nghiêng.","Trung bình",200],
+ ["Bạn muốn tạo một dòng tiêu đề và một đoạn mô tả bên dưới. Cặp thẻ phù hợp nhất là gì?","h1 và p","img và br","table và tr","head và title",0,"Dùng h1 cho tiêu đề và p cho đoạn mô tả là cấu trúc HTML phù hợp.","Khó",300]
+ ]}
+];
+let all=[],idx=0,score=0,lives=3,timeLeft=20,timer=null,answered=false,completedRooms=new Set(),roomBonusAwarded=new Set();
+rooms.forEach((r,ri)=>r.qs.forEach((q,qi)=>all.push({...q,ri,qi})));
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function startGame(){idx=0;score=0;lives=3;completedRooms.clear();roomBonusAwarded.clear();show('game');renderQuestion()}
+function restartGame(){clearInterval(timer);startGame()}
+function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+function renderQuestion(){
+ stopTimer();answered=false;timeLeft=20;
+ if(lives<=0){finish(false);return}
+ if(idx>=all.length){finish(true);return}
+ const q=all[idx],r=rooms[q.ri];
+ document.getElementById('score').textContent=score;
+ document.getElementById('lives').textContent='♥ '.repeat(lives).trim();
+ document.getElementById('progressText').textContent=idx+'/'+all.length;
+ document.getElementById('roomCount').textContent=(q.ri+1)+'/8';
+ document.getElementById('progressBar').style.width=(idx/all.length*100)+'%';
+ document.getElementById('roomTitle').textContent='PHÒNG '+String(q.ri+1).padStart(2,'0')+' · '+r.name;
+ document.getElementById('roomDesc').textContent=r.desc;
+ document.getElementById('qmeta').textContent='CÂU HỎI '+String(idx+1).padStart(2,'0')+' / 30 · '+q[7].toUpperCase()+' · '+q[8]+' ĐIỂM';
+ document.getElementById('question').textContent=q[0];
+ const box=document.getElementById('answers');box.innerHTML='';
+ [q[1],q[2],q[3],q[4]].forEach((a,i)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+a;b.onclick=()=>choose(i);box.appendChild(b)});
+ const fb=document.getElementById('feedback');fb.className='feedback';fb.textContent='';
+ document.getElementById('nextBtn').disabled=true;document.getElementById('nextBtn').textContent='TIẾP TỤC →';
+ document.getElementById('hint').textContent='Chọn một đáp án. Bạn có 20 giây!';
+ updateTimer();timer=setInterval(()=>{timeLeft--;updateTimer();if(timeLeft<=0){stopTimer();choose(-1)}},1000);
+}
+function updateTimer(){document.getElementById('timer').textContent='00:'+String(timeLeft).padStart(2,'0');document.getElementById('timer').style.color=timeLeft<=5?'var(--red)':'var(--cyan)'}
+function choose(choice){
+ if(answered)return;answered=true;stopTimer();const q=all[idx],buttons=[...document.querySelectorAll('.answer')],correct=choice===q[5];
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===q[5])b.classList.add('correct');if(i===choice&&!correct)b.classList.add('wrong')});
+ const fb=document.getElementById('feedback');fb.className='feedback show '+(correct?'good':'bad');
+ if(correct){score+=q[8];fb.innerHTML='<b>✓ Chính xác! +'+q[8]+' điểm.</b><br>'+q[6]}
+ else{lives--;fb.innerHTML='<b>✕ '+(choice===-1?'Hết giờ!':'Chưa chính xác.')+'</b> Đáp án đúng: <b>'+String.fromCharCode(65+q[5])+'. '+q[q[5]+1]+'</b><br>'+q[6]}
+ // Complete-room bonus is granted once all questions in that room have been attempted and player remains in the game.
+ const lastInRoom=q.qi===rooms[q.ri].qs.length-1;
+ if(lastInRoom&&!roomBonusAwarded.has(q.ri)){roomBonusAwarded.add(q.ri);completedRooms.add(q.ri);score+=200;fb.innerHTML+='<br><b>★ Đã hoàn thành phòng! +200 điểm thưởng.</b>'}
+ document.getElementById('score').textContent=score;document.getElementById('lives').textContent='♥ '.repeat(lives).trim()||'0';document.getElementById('nextBtn').disabled=false;
+ document.getElementById('hint').textContent=lives>0?'Sẵn sàng cho câu tiếp theo.':'Bạn đã hết lượt. Nhấn tiếp tục để xem kết quả.';
+ document.getElementById('nextBtn').textContent=lives>0?'TIẾP TỤC →':'XEM KẾT QUẢ →';
+}
+function nextQuestion(){if(!answered)return;idx++;if(lives<=0||idx>=all.length){finish(lives>0&&idx>=all.length);return}renderQuestion()}
+function finish(win){
+ stopTimer();show('ending');document.getElementById('endSymbol').textContent=win?'🏆':'🛑';document.getElementById('endEyebrow').textContent=win?'MISSION COMPLETE':'MISSION FAILED';document.getElementById('endTitle').textContent=win?'Hệ thống đã được khôi phục!':'Nhiệm vụ chưa hoàn thành';
+ document.getElementById('endText').textContent=win?'Bạn đã vượt qua toàn bộ 8 căn phòng và giải cứu hệ thống. Chúc mừng chiến binh số!':'Bạn đã hết 3 mạng trước khi hoàn thành nhiệm vụ. Hãy ôn lại kiến thức và thử sức lần nữa nhé!';
+ document.getElementById('finalScore').textContent='Tổng điểm: '+score+' · Số câu đã xử lí: '+Math.min(idx,30)+'/30';
+}
+function showMap(){stopTimer();show('map');const g=document.getElementById('mapgrid');g.innerHTML='';rooms.forEach((r,i)=>{let c=document.createElement('button');c.className='roomcard '+(completedRooms.has(i)?'done':i===Math.min(rooms.findIndex((x,j)=>!completedRooms.has(j)),7)?'current':'locked');c.innerHTML='<span>PHÒNG '+String(i+1).padStart(2,'0')+'</span><strong>'+r.name+'</strong><small>'+(completedRooms.has(i)?'✓ Đã hoàn thành':i===Math.min(rooms.findIndex((x,j)=>!completedRooms.has(j)),7)?'Đang thực hiện':'🔒 Chưa mở khóa')+'</small>';c.disabled=true;g.appendChild(c)});document.getElementById('mapStatus').textContent='Điểm hiện tại: '+score}
+function backToGame(){show('game');if(!answered){timeLeft=20;renderQuestion()}else{document.getElementById('nextBtn').focus()}}
+</script>
+</body>
+</html>
